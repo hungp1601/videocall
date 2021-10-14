@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "734312908382",
+    "project_id": "videocall-f21fa",
+    "storage_bucket": "videocall-f21fa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:734312908382:android:9d9ffdc266620d5a3e96cf",
+        "android_client_info": {
+          "package_name": "com.example.videocall"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "734312908382-o1g4c70baqmffa74mfbq7bkjd5f95pej.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMMXiZ0j9zP1gvhIcIA850izn4RSgaKso"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "734312908382-o1g4c70baqmffa74mfbq7bkjd5f95pej.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
