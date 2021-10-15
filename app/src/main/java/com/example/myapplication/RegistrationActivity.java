@@ -121,6 +121,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             loadingBar.dismiss();
                             Toast.makeText(RegistrationActivity.this,"Sign In Successful",Toast.LENGTH_SHORT).show();
+                            sendUserToMainActivity();
                         } else {
                             // Sign in failed, display a message and update the UI
                             loadingBar.dismiss();
