@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView navView;
@@ -20,7 +21,16 @@ public class MainActivity extends AppCompatActivity {
         navView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
 
     }
+    protected void onStart(){
+        super.onStart();
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if(firebaseUser==null){
 
+            Intent logoutIntent = new Intent(MainActivity.this, RegistrationActivity.class);
+            startActivity(logoutIntent);
+            finish();
+        }
+    }
 
 
     public BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener;
