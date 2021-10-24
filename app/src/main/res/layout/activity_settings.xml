@@ -14,7 +14,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:src="@drawable/profile_image"></ImageView>
+        android:src="@drawable/profile_image" />
 
     <EditText
         android:id="@+id/username_settings"
@@ -29,7 +29,7 @@
         android:drawableTint="@android:color/white"
         android:hint="write your name"
         android:textColor="@android:color/white"
-        android:textColorHint="@android:color/white"></EditText>
+        android:textColorHint="@android:color/white" />
 
     <EditText
         android:id="@+id/bio_settings"
@@ -44,8 +44,7 @@
         android:hint="write your status"
         android:textColorHint="@android:color/white"
         android:textColor="@android:color/white"
-        android:backgroundTint="@android:color/white"
-        ></EditText>
+        android:backgroundTint="@android:color/white" />
 
     <Button
         android:id="@+id/save_settings_btn"
@@ -56,6 +55,5 @@
         android:layout_marginEnd="18dp"
         android:layout_marginTop="20dp"
         android:text="Save"
-        android:textColor="@android:color/white"
-        ></Button>
+        android:textColor="@android:color/white" />
 </RelativeLayout>

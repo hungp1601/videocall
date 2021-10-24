@@ -59,10 +59,7 @@ public class ContactsActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
-                    case R.id.navigation_home:
-                        Intent mainIntent = new Intent(ContactsActivity.this, ContactsActivity.class);
-                        startActivity(mainIntent);
-                        break;
+
                     case R.id.navigation_settings:
                         Intent settingsIntent = new Intent(ContactsActivity.this, SettingsActivity.class);
                         startActivity(settingsIntent);
