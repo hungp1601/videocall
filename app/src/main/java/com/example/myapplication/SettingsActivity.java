@@ -41,10 +41,8 @@ public class SettingsActivity extends AppCompatActivity {
     private DatabaseReference userRef;
 
     private ProgressDialog progressDialog;
-    private DatabaseReference mDatabase;
 
-    private static final String TAG = SettingsActivity.class.getSimpleName();
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,8 +56,7 @@ public class SettingsActivity extends AppCompatActivity {
         userProfileImgRef = FirebaseStorage.getInstance().getReference().child("Profile Images");
         userRef = FirebaseDatabase.getInstance().getReference().child("users");
         progressDialog = new ProgressDialog(this);
-
-        //mDatabase = FirebaseDatabase.getInstance().getReference();
+        
 
         profileImageView.setOnClickListener(view -> {
             Intent galleryIntent = new Intent();
@@ -83,6 +80,7 @@ public class SettingsActivity extends AppCompatActivity {
     private void saveUserData() {
         final String getUserName = userNameET.getText().toString();
         final String getUserStatus = userBioET.getText().toString();
+        //Toast.makeText(SettingsActivity.this, ImageUri.toString(), Toast.LENGTH_SHORT).show();
         if (ImageUri == null) {
             userRef.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -182,7 +180,6 @@ public class SettingsActivity extends AppCompatActivity {
                             String imageDB = snapshot.child("image").getValue().toString();
                             String nameDB = snapshot.child("name").getValue().toString();
                             String bioDB = snapshot.child("status").getValue().toString();
-
                             userNameET.setText(nameDB);
                             userBioET.setText(bioDB);
                             Picasso.get().load(imageDB).placeholder(R.drawable.profile_image).into(profileImageView);
@@ -191,7 +188,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(SettingsActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SettingsActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
