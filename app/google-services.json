@@ -1,41 +1,34 @@
 {
   "project_info": {
-    "project_number": "668173755403",
-    "project_id": "test-e772f",
-    "storage_bucket": "test-e772f.appspot.com"
+    "project_number": "413242848476",
+    "firebase_url": "https://vivid-beta-default-rtdb.firebaseio.com",
+    "project_id": "vivid-beta",
+    "storage_bucket": "vivid-beta.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:668173755403:android:26cf26535b90d326db130e",
+        "mobilesdk_app_id": "1:413242848476:android:af6307ddd490dce2263019",
         "android_client_info": {
-          "package_name": "com.example.myapplication"
+          "package_name": "com.example.vivid"
         }
       },
       "oauth_client": [
         {
-          "client_id": "668173755403-5g0hdq8ffp9d05nqrbo21pit0tlosbq0.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.myapplication",
-            "certificate_hash": "c9e2f561618c57e421cb9171c1d9cf40eea44b46"
-          }
-        },
-        {
-          "client_id": "668173755403-57mrivori0j3uqqlep4tda6qaraihrgg.apps.googleusercontent.com",
+          "client_id": "413242848476-jteon4u843g17680u6brc45eqhoqu0s8.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD_Ia3for6E39593rbrn9Zrij2lcJNE2z4"
+          "current_key": "AIzaSyBJ_Hz_iwJYtoipU28zY-RZ4GvblpSHtPc"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "668173755403-57mrivori0j3uqqlep4tda6qaraihrgg.apps.googleusercontent.com",
+              "client_id": "413242848476-jteon4u843g17680u6brc45eqhoqu0s8.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
