@@ -52,10 +52,10 @@ public class FindPeopleActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSeq, int i, int i1, int i2) {
-                if(!searchET.getText().toString().equals("")) {
+
                     str = charSeq.toString();
                     getUserList();
-                }
+
             }
 
             @Override
@@ -71,15 +71,12 @@ public class FindPeopleActivity extends AppCompatActivity {
 
     void getUserList(){
         FirebaseRecyclerOptions<Contacts> options=null;
-        if(str.equals("")){
-            options = new FirebaseRecyclerOptions.Builder<Contacts> ()
-                    .setQuery(userRef,Contacts.class).build();
-        }
-        else{
-            options= new FirebaseRecyclerOptions.Builder<Contacts> ()
-                    .setQuery(userRef.orderByChild("name")
-                            .startAt(str).endAt(str+"\uf8ff"),Contacts.class).build();
-        }
+
+        FirebaseRecyclerOptions.Builder<Contacts> contactsBuilder = new FirebaseRecyclerOptions.Builder<Contacts>();
+            contactsBuilder.setQuery(userRef.orderByChild("name")
+                    .startAt(str).endAt(str + "\uf8ff"), Contacts.class);
+            options= contactsBuilder.build();
+
         FirebaseRecyclerAdapter<Contacts,FindFriendsViewHolder> firebaseRecyclerAdapter
                 = new FirebaseRecyclerAdapter<Contacts, FindFriendsViewHolder>(options) {
             @Override
@@ -88,13 +85,15 @@ public class FindPeopleActivity extends AppCompatActivity {
                 Picasso.get().load(model.getImage()).into(holder.profileImageView);
 
                 holder.itemView.setOnClickListener(v -> {
+
                     String visit_user_id = getRef(position).getKey();
-                    Intent intent = new Intent(FindPeopleActivity.this,ProfileActivity.class);
-                    intent.putExtra("visit_user_id",visit_user_id);
-                    intent.putExtra("profile_image",model.getImage());
-                    intent.putExtra("profile_name",model.getName());
-                    intent.putExtra("profile_status",model.getStatus());
-                    startActivity(intent);
+                        Intent intent = new Intent(FindPeopleActivity.this,ProfileActivity.class);
+                        intent.putExtra("visit_user_id",visit_user_id);
+                        intent.putExtra("profile_image",model.getImage());
+                        intent.putExtra("profile_name",model.getName());
+                        intent.putExtra("profile_status",model.getStatus());
+                        startActivity(intent);
+
                 });
             }
 
@@ -113,7 +112,7 @@ public class FindPeopleActivity extends AppCompatActivity {
 
     public static class FindFriendsViewHolder extends RecyclerView.ViewHolder
     {
-        TextView userNameTxt,userStatusTxt;
+        TextView userNameTxt;
         Button videCallBtn;
         ImageView profileImageView;
         RelativeLayout cardView;
@@ -126,6 +125,8 @@ public class FindPeopleActivity extends AppCompatActivity {
             cardView = itemView.findViewById(R.id.card_view);
             videCallBtn.setVisibility(View.GONE);
         }
+
+
     }
 
 }
