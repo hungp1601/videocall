@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -53,12 +52,9 @@ public class FindPeopleActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSeq, int i, int i1, int i2) {
-                if(searchET.getText().toString().equals("")){
-                    Toast.makeText(FindPeopleActivity.this,"Please write a name to search",Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    str=charSeq.toString();
-
+                if(!searchET.getText().toString().equals("")) {
+                    str = charSeq.toString();
+                    getUserList();
                 }
             }
 
@@ -68,14 +64,16 @@ public class FindPeopleActivity extends AppCompatActivity {
             }
         });
     }
-
-    protected void onStart(){
+    public void onStart() {
         super.onStart();
+        getUserList();
+    }
+
+    void getUserList(){
         FirebaseRecyclerOptions<Contacts> options=null;
         if(str.equals("")){
             options = new FirebaseRecyclerOptions.Builder<Contacts> ()
                     .setQuery(userRef,Contacts.class).build();
-
         }
         else{
             options= new FirebaseRecyclerOptions.Builder<Contacts> ()
@@ -95,6 +93,7 @@ public class FindPeopleActivity extends AppCompatActivity {
                     intent.putExtra("visit_user_id",visit_user_id);
                     intent.putExtra("profile_image",model.getImage());
                     intent.putExtra("profile_name",model.getName());
+                    intent.putExtra("profile_status",model.getStatus());
                     startActivity(intent);
                 });
             }
@@ -114,20 +113,19 @@ public class FindPeopleActivity extends AppCompatActivity {
 
     public static class FindFriendsViewHolder extends RecyclerView.ViewHolder
     {
-        TextView userNameTxt;
+        TextView userNameTxt,userStatusTxt;
         Button videCallBtn;
         ImageView profileImageView;
         RelativeLayout cardView;
 
         public FindFriendsViewHolder(@NonNull View itemView) {
             super(itemView);
-
             userNameTxt = itemView.findViewById(R.id.name_contact);
             videCallBtn = itemView.findViewById(R.id.call_btn);
             profileImageView = itemView.findViewById(R.id.image_contatct);
             cardView = itemView.findViewById(R.id.card_view);
-
             videCallBtn.setVisibility(View.GONE);
         }
     }
+
 }

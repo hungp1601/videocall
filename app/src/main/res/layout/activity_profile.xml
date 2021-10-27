@@ -10,8 +10,8 @@
         android:id="@+id/background_profile_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/profile_image"
         android:scaleType="centerCrop"
+        android:src="@drawable/profile_image"
 
         >
 
@@ -21,36 +21,47 @@
         android:id="@+id/name_profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:maxLines="2"
+        android:scaleType="centerCrop"
+        android:text="user name"
         android:textColor="@color/colorPrimary"
         android:textSize="28dp"
-        android:maxLines="2"
-        android:text="user name"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:scaleType="centerCrop"
+
+        android:textStyle="bold"></TextView>
+
+    <TextView
+        android:id="@+id/status_profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name_profile"
         android:layout_centerInParent="true"
+        android:gravity="center"
+        android:maxLines="2"
+        android:scaleType="centerCrop"
+        android:text="user status"
+        android:textColor="@color/colorPrimary"
+        android:textSize="28dp"
+        android:textStyle="bold"></TextView>
 
-        >
-
-    </TextView>
     <Button
         android:id="@+id/add_friend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:layout_below="@+id/status_profile"
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="35dp"
+        android:background="@color/colorPrimary"
+        android:padding="5dp"
+        android:text="Add Friend"
+        android:visibility="gone"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
-        android:layout_below="@+id/name_profile"
-        android:layout_marginTop="35dp"
-        android:layout_marginLeft="35dp"
-        android:layout_marginBottom="35dp"
-        android:layout_marginRight="12dp"
-        android:background="@color/colorPrimary"
-        android:text="Add Friend"
-        android:padding="5dp"
-
+        android:textSize="16sp"
         >
-
     </Button>
 
     <Button
@@ -60,7 +71,7 @@
         android:textSize="16sp"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
-        android:layout_below="@+id/add_friend"
+        android:layout_below="@+id/status_profile"
         android:layout_marginTop="1dp"
         android:layout_marginLeft="35dp"
         android:layout_marginBottom="35dp"
@@ -69,6 +80,17 @@
         android:text="Cancel Friend Request"
         android:visibility="gone"
         android:padding="5dp"
+        >
+
+    </Button>
+    <Button
+        android:id="@+id/call_friend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/video_call"
+        android:layout_below="@+id/status_profile"
+        android:layout_centerInParent="true"
+        android:gravity="center"
 
         >
 

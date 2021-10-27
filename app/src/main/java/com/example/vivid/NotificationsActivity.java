@@ -20,7 +20,6 @@ public class NotificationsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
-
         notifications_list = findViewById(R.id.notifications_list);
         notifications_list.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
     }
