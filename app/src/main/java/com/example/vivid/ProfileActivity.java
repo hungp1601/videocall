@@ -49,11 +49,13 @@ public class ProfileActivity extends AppCompatActivity {
         name_profile.setText(receiverUserName);
         status_profile.setText(receiverUserStatus);
 
+
+
         add_friend.setOnClickListener(view -> {
-            if(currentID!=receiverUserID){
+
                 userRef.child(receiverUserID).child("requests").child(currentID).setValue("uid",receiverUserID);
                 Toast.makeText(ProfileActivity.this,"Request was sent",Toast.LENGTH_SHORT).show();
-            }
+
         });
 
         decline_friend_request.setOnClickListener(view -> {
@@ -68,21 +70,32 @@ public class ProfileActivity extends AppCompatActivity {
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.child(receiverUserID).child("requests").hasChild(currentID)) {
-                    add_friend.setVisibility(View.GONE);
-                    decline_friend_request.setVisibility(View.VISIBLE);
-                    call_friend.setVisibility(View.GONE);
 
-                } else if(snapshot.child(receiverUserID).child("friends").hasChild(currentID)){
+
+
+                if(currentID.equals(receiverUserID)){
                     add_friend.setVisibility(View.GONE);
                     decline_friend_request.setVisibility(View.GONE);
-                    call_friend.setVisibility(View.VISIBLE);
+                    call_friend.setVisibility(View.GONE);
                 }
                 else{
-                    add_friend.setVisibility(View.VISIBLE);
-                    decline_friend_request.setVisibility(View.GONE);
-                    call_friend.setVisibility(View.GONE);
+                    if (snapshot.child(receiverUserID).child("requests").hasChild(currentID)) {
+                        add_friend.setVisibility(View.GONE);
+                        decline_friend_request.setVisibility(View.VISIBLE);
+                        call_friend.setVisibility(View.GONE);
+
+                    } else if(snapshot.child(receiverUserID).child("friends").hasChild(currentID)){
+                        add_friend.setVisibility(View.GONE);
+                        decline_friend_request.setVisibility(View.GONE);
+                        call_friend.setVisibility(View.VISIBLE);
+                    }
+                    else{
+                        add_friend.setVisibility(View.VISIBLE);
+                        decline_friend_request.setVisibility(View.GONE);
+                        call_friend.setVisibility(View.GONE);
+                    }
                 }
+
             }
 
             @Override
