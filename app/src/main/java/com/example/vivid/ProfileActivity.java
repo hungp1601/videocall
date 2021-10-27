@@ -18,6 +18,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
+
 public class ProfileActivity extends AppCompatActivity {
 
     private String receiverUserID="",receiverUserImage="", receiverUserName="", receiverUserStatus="", currentID="";
@@ -50,12 +52,14 @@ public class ProfileActivity extends AppCompatActivity {
         status_profile.setText(receiverUserStatus);
 
 
-
         add_friend.setOnClickListener(view -> {
-
-                userRef.child(receiverUserID).child("requests").child(currentID).setValue("uid",receiverUserID);
-                Toast.makeText(ProfileActivity.this,"Request was sent",Toast.LENGTH_SHORT).show();
-
+            HashMap<String, Object> profileMap = new HashMap<>();
+            profileMap.put("uid", receiverUserID);
+            profileMap.put("name", receiverUserName);
+            profileMap.put("status", receiverUserStatus);
+            profileMap.put("image", receiverUserImage);
+            userRef.child(receiverUserID).child("requests").child(currentID).setValue(profileMap);
+            Toast.makeText(ProfileActivity.this,"Request was sent",Toast.LENGTH_SHORT).show();
         });
 
         decline_friend_request.setOnClickListener(view -> {
@@ -70,8 +74,6 @@ public class ProfileActivity extends AppCompatActivity {
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-
 
                 if(currentID.equals(receiverUserID)){
                     add_friend.setVisibility(View.GONE);
@@ -103,7 +105,6 @@ public class ProfileActivity extends AppCompatActivity {
                 Toast.makeText(ProfileActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
             }
         });
-
 
     }
 }

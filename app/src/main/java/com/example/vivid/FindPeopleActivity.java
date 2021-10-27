@@ -42,6 +42,7 @@ public class FindPeopleActivity extends AppCompatActivity {
         findFriendList = findViewById(R.id.find_friends_list);
         findFriendList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
+
         userRef= FirebaseDatabase.getInstance().getReference().child("users");
 
         searchET.addTextChangedListener(new TextWatcher() {
@@ -52,10 +53,8 @@ public class FindPeopleActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSeq, int i, int i1, int i2) {
-
                     str = charSeq.toString();
                     getUserList();
-
             }
 
             @Override
@@ -75,7 +74,7 @@ public class FindPeopleActivity extends AppCompatActivity {
         FirebaseRecyclerOptions.Builder<Contacts> contactsBuilder = new FirebaseRecyclerOptions.Builder<Contacts>();
             contactsBuilder.setQuery(userRef.orderByChild("name")
                     .startAt(str).endAt(str + "\uf8ff"), Contacts.class);
-            options= contactsBuilder.build();
+            options = contactsBuilder.build();
 
         FirebaseRecyclerAdapter<Contacts,FindFriendsViewHolder> firebaseRecyclerAdapter
                 = new FirebaseRecyclerAdapter<Contacts, FindFriendsViewHolder>(options) {
@@ -121,7 +120,7 @@ public class FindPeopleActivity extends AppCompatActivity {
             super(itemView);
             userNameTxt = itemView.findViewById(R.id.name_contact);
             videCallBtn = itemView.findViewById(R.id.call_btn);
-            profileImageView = itemView.findViewById(R.id.image_contatct);
+            profileImageView = itemView.findViewById(R.id.image_contact);
             cardView = itemView.findViewById(R.id.card_view);
             videCallBtn.setVisibility(View.GONE);
         }

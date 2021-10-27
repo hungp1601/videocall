@@ -11,14 +11,15 @@
         <entry key="..\:/Users/hungk/AndroidStudioProjects/MyApplication2/app/src/main/res/layout-v23/activity_settings.xml" value="0.1" />
         <entry key="..\:/Users/hungk/AndroidStudioProjects/MyApplication2/app/src/main/res/layout/activity_contacts.xml" value="0.1" />
         <entry key="..\:/Users/hungk/AndroidStudioProjects/MyApplication2/app/src/main/res/layout/activity_find_people.xml" value="0.1" />
+        <entry key="..\:/Users/hungk/AndroidStudioProjects/MyApplication2/app/src/main/res/layout/activity_friend_request.xml" value="0.25" />
         <entry key="..\:/Users/hungk/AndroidStudioProjects/MyApplication2/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/hungk/AndroidStudioProjects/MyApplication2/app/src/main/res/layout/activity_notifications.xml" value="0.22" />
-        <entry key="..\:/Users/hungk/AndroidStudioProjects/MyApplication2/app/src/main/res/layout/activity_profile.xml" value="0.1" />
+        <entry key="..\:/Users/hungk/AndroidStudioProjects/MyApplication2/app/src/main/res/layout/activity_profile.xml" value="0.2381786339754816" />
         <entry key="..\:/Users/hungk/AndroidStudioProjects/MyApplication2/app/src/main/res/layout/activity_registration.xml" value="0.22" />
         <entry key="..\:/Users/hungk/AndroidStudioProjects/MyApplication2/app/src/main/res/layout/activity_settings.xml" value="0.21450151057401812" />
         <entry key="..\:/Users/hungk/AndroidStudioProjects/MyApplication2/app/src/main/res/layout/bottom_nav.xml" value="0.25" />
-        <entry key="..\:/Users/hungk/AndroidStudioProjects/MyApplication2/app/src/main/res/layout/contact_design.xml" value="0.22" />
-        <entry key="..\:/Users/hungk/AndroidStudioProjects/MyApplication2/app/src/main/res/layout/find_friend_design.xml" value="0.22" />
+        <entry key="..\:/Users/hungk/AndroidStudioProjects/MyApplication2/app/src/main/res/layout/contact_design.xml" value="0.1" />
+        <entry key="..\:/Users/hungk/AndroidStudioProjects/MyApplication2/app/src/main/res/layout/find_friend_design.xml" value="0.1" />
         <entry key="..\:/Users/hungk/AndroidStudioProjects/MyApplication2/app/src/main/res/layout/fragment_dashboard.xml" value="0.1" />
         <entry key="..\:/Users/hungk/AndroidStudioProjects/MyApplication2/app/src/main/res/layout/fragment_home.xml" value="0.18" />
         <entry key="..\:/Users/hungk/AndroidStudioProjects/MyApplication2/app/src/main/res/layout/fragment_notifications.xml" value="0.18" />

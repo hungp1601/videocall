@@ -104,7 +104,7 @@ public class SettingsActivity extends AppCompatActivity {
         } else {
             progressDialog.setTitle("Account Settings");
             progressDialog.setMessage("Please wait...");
-            //progressDialog.setCanceledOnTouchOutside(false);
+            //progxressDialog.setCanceledOnTouchOutside(false);
             progressDialog.show();
 
             final StorageReference filePath =

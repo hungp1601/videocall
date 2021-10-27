@@ -3,7 +3,6 @@ package com.example.vivid;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -31,12 +30,9 @@ public class ContactsActivity extends AppCompatActivity {
         myContactList = findViewById(R.id.contact_list);
         myContactList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
-        findPepleBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent findPeopleInent = new Intent(ContactsActivity.this, FindPeopleActivity.class);
-                startActivity(findPeopleInent);
-            }
+        findPepleBtn.setOnClickListener(v -> {
+            Intent findPeopleInent = new Intent(ContactsActivity.this, FindPeopleActivity.class);
+            startActivity(findPeopleInent);
         });
     }
 

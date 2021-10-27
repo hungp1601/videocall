@@ -28,8 +28,7 @@
         android:text="user name"
         android:textColor="@color/colorPrimary"
         android:textSize="28dp"
-
-        android:textStyle="bold"></TextView>
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/status_profile"
@@ -43,7 +42,7 @@
         android:text="user status"
         android:textColor="@color/colorPrimary"
         android:textSize="28dp"
-        android:textStyle="bold"></TextView>
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/add_friend"
@@ -85,13 +84,14 @@
     </Button>
     <Button
         android:id="@+id/call_friend"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="70sp"
+        android:layout_height="70sp"
+
         android:background="@drawable/video_call"
         android:layout_below="@+id/status_profile"
         android:layout_centerInParent="true"
         android:gravity="center"
-        android:visibility="gone"
+
         >
 
     </Button>
