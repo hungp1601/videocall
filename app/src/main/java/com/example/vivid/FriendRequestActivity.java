@@ -71,7 +71,7 @@ public class FriendRequestActivity extends AppCompatActivity {
             userRef.child(currentID).child("requests").child(receiverUserID).removeValue();
             userRef.child(receiverUserID).child("requests").child(currentID).removeValue();
 
-            Toast.makeText(FriendRequestActivity.this,receiverUserID,Toast.LENGTH_SHORT).show();
+            Toast.makeText(FriendRequestActivity.this,"You two are friend now",Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(FriendRequestActivity.this,NotificationsActivity.class);
             startActivity(intent);
             finish();

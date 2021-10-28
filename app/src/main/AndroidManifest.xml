@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
         <activity
+            android:name=".FriendActivity"
+            android:exported="false" />
+        <activity
             android:name=".FriendRequestActivity"
             android:exported="false" />
         <activity

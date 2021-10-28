@@ -48,8 +48,7 @@
             android:padding="5dp"
             android:layout_centerHorizontal="true"
             android:drawableTop="@drawable/video_call"
-            android:drawableTint="@color/white"
-            ></Button>
+            android:drawableTint="@color/white" />
 
     </RelativeLayout>
 
