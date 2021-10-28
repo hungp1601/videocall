@@ -7,19 +7,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class FriendRequestActivity extends AppCompatActivity {
 
-    private String receiverUserID="",receiverUserImage="", receiverUserName="",receiverUserStatus="", currentID="";
+    private String receiverUserID="",receiverUserImage="", receiverUserName="",receiverUserStatus="", currentID="",currentName="",currentStatus="",currentImage;
     private ImageView background_profile_view;
     private TextView name_profile;
     private Button accept, decline;
@@ -49,17 +52,17 @@ public class FriendRequestActivity extends AppCompatActivity {
 
         accept.setOnClickListener(view -> {
 
-            Map<String, Object> profileMap = new HashMap<>();
+            HashMap<String, Object> profileMap = new HashMap<>();
             profileMap.put("uid", currentID);
-            profileMap.put("name", userRef.child(currentID).child("name").toString());
-            profileMap.put("status", userRef.child(currentID).child("status").toString());
-            profileMap.put("image", userRef.child(currentID).child("image").toString());
+            profileMap.put("name", currentName);
+            profileMap.put("status", currentStatus);
+            profileMap.put("image", currentImage);
 
-            Map<String, Object> profileReceiver = new HashMap<>();
+            HashMap<String, Object> profileReceiver = new HashMap<>();
             profileReceiver.put("uid", receiverUserID);
-            profileReceiver.put("name", userRef.child(receiverUserID).child("name").toString());
-            profileReceiver.put("status", userRef.child(receiverUserID).child("status").toString());
-            profileReceiver.put("image", userRef.child(receiverUserID).child("image").toString());
+            profileReceiver.put("name", receiverUserName);
+            profileReceiver.put("status", receiverUserStatus);
+            profileReceiver.put("image", receiverUserImage);
 
 
             userRef.child(currentID).child("friends").child(receiverUserID).setValue(profileReceiver);
@@ -83,8 +86,26 @@ public class FriendRequestActivity extends AppCompatActivity {
             finish();
         });
 
+        userRef.child(currentID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    currentName = snapshot.child("name").getValue().toString();
+                    currentStatus = snapshot.child("status").getValue().toString();
+                    currentImage = snapshot.child("image").getValue().toString();
+                }
+                else{
+                    Toast.makeText(FriendRequestActivity.this,"error",Toast.LENGTH_SHORT).show();
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(FriendRequestActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
     }
+
 }

@@ -81,6 +81,7 @@ public class ProfileActivity extends AppCompatActivity {
                     call_friend.setVisibility(View.GONE);
                 }
                 else{
+
                     if (snapshot.child(receiverUserID).child("requests").hasChild(currentID)) {
                         add_friend.setVisibility(View.GONE);
                         decline_friend_request.setVisibility(View.VISIBLE);
