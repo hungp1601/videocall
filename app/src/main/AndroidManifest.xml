@@ -11,6 +11,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
         <activity
+            android:name=".VideoCallActivity"
+            android:exported="true" />
+        <activity
+            android:name=".CallingActivity"
+            android:exported="true" />
+        <activity
             android:name=".FriendActivity"
             android:exported="false" />
         <activity

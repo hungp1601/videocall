@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".VideoCallActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/sub_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorAccent">
+
+            <FrameLayout
+                android:id="@+id/pub_container"
+                android:layout_width="110dp"
+                android:layout_height="150dp"
+                android:layout_gravity="bottom|end"
+                android:background="@color/teal_700"
+                android:layout_margin="12dp">
+            </FrameLayout>
+        </FrameLayout>
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/colse_video_btn"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/cancel_call"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="20dp">
+
+    </ImageView>
+</RelativeLayout>
