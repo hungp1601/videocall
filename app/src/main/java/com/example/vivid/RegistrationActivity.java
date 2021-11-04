@@ -12,10 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
@@ -43,34 +40,32 @@ public class RegistrationActivity extends AppCompatActivity {
         mAuth=FirebaseAuth.getInstance();
         loadingBar= new ProgressDialog(this);
         GetViews();
-        continueAndNextBtn.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                if(continueAndNextBtn.getText().equals("Submit") || checker.equals("Code sent")){
-                    String verificationCode=codeText.getText().toString();
-                    if(verificationCode.equals("")){
-                        Toast.makeText(RegistrationActivity.this, "Please write verification code", Toast.LENGTH_SHORT).show();
-                    }
-                    else{
-                        loadingBar.setTitle("Code Verification");
-                        loadingBar.setTitle("Code Verifying...");
-                        loadingBar.setCanceledOnTouchOutside(false);
-                        loadingBar.show();
-                        PhoneAuthCredential credential= PhoneAuthProvider.getCredential(mVerificationId,verificationCode);
-                        signInWithPhoneAuthCredential(credential);
-                    }
+        continueAndNextBtn.setOnClickListener(v -> {
+            if(continueAndNextBtn.getText().equals("Submit") || checker.equals("Code sent")){
+                String verificationCode=codeText.getText().toString();
+                if(verificationCode.equals("")){
+                    Toast.makeText(RegistrationActivity.this, "Please write verification code", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    phoneNumber = ccp.getFullNumberWithPlus();
-                    if(!phoneNumber.equals("")){
-                        loadingBar.setTitle("Phone number verification");
-                        loadingBar.setMessage("Please wait for the verification");
-                        loadingBar.setCanceledOnTouchOutside(false);
-                        loadingBar.show();
-                        PhoneAuthProvider.getInstance().verifyPhoneNumber(phoneNumber,60, TimeUnit.SECONDS,RegistrationActivity.this,mCallbacks);
-                    }
-                    else{
-                        Toast.makeText(RegistrationActivity.this, "Please write a valid phone number", Toast.LENGTH_SHORT).show();
-                    }
+                    loadingBar.setTitle("Code Verification");
+                    loadingBar.setTitle("Code Verifying...");
+                    loadingBar.setCanceledOnTouchOutside(false);
+                    loadingBar.show();
+                    PhoneAuthCredential credential= PhoneAuthProvider.getCredential(mVerificationId,verificationCode);
+                    signInWithPhoneAuthCredential(credential);
+                }
+            }
+            else{
+                phoneNumber = ccp.getFullNumberWithPlus();
+                if(!phoneNumber.equals("")){
+                    loadingBar.setTitle("Phone number verification");
+                    loadingBar.setMessage("Please wait for the verification");
+                    loadingBar.setCanceledOnTouchOutside(false);
+                    loadingBar.show();
+                    PhoneAuthProvider.getInstance().verifyPhoneNumber(phoneNumber,60, TimeUnit.SECONDS,RegistrationActivity.this,mCallbacks);
+                }
+                else{
+                    Toast.makeText(RegistrationActivity.this, "Please write a valid phone number", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -123,19 +118,16 @@ public class RegistrationActivity extends AppCompatActivity {
     }
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
         mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            loadingBar.dismiss();
-                            Toast.makeText(RegistrationActivity.this,"Sign In Successful",Toast.LENGTH_SHORT).show();
-                            sendUserToMainActivity();
-                        } else {
-                            // Sign in failed, display a message and update the UI
-                            loadingBar.dismiss();
-                            String e= task.getException().toString();
-                            Toast.makeText(RegistrationActivity.this,"Error: "+e,Toast.LENGTH_SHORT).show();
-                        }
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        loadingBar.dismiss();
+                        Toast.makeText(RegistrationActivity.this,"Sign In Successful",Toast.LENGTH_SHORT).show();
+                        sendUserToMainActivity();
+                    } else {
+                        // Sign in failed, display a message and update the UI
+                        loadingBar.dismiss();
+                        String e= task.getException().toString();
+                        Toast.makeText(RegistrationActivity.this,"Error: "+e,Toast.LENGTH_SHORT).show();
                     }
                 });
     }

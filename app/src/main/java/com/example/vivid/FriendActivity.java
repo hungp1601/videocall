@@ -15,7 +15,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 public class FriendActivity extends AppCompatActivity {
-    private String receiverUserID="",receiverUserImage="", receiverUserName="", receiverUserStatus="", currentID="";
+    private String receiverUserID="",receiverUserImage="", receiverUserName="", receiverUserStatus="", currentID="",receiverToken="";
     private ImageView background_profile_view;
     private TextView name_profile,status_profile;
     private Button call, unfriend;

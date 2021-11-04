@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,15 +21,23 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 public class ContactsActivity extends AppCompatActivity {
     BottomNavigationView navView;
     RecyclerView myContactList;
     ImageView findPepleBtn;
-    private DatabaseReference userRef;
+
+    private DatabaseReference contactsRef, userRef;
+    private FirebaseAuth mAuth;
+    private String currentUserId;
+    private String userName="", profileImage="";
+    private String calledBy="";
     String currentID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +51,9 @@ public class ContactsActivity extends AppCompatActivity {
         myContactList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
         userRef= FirebaseDatabase.getInstance().getReference().child("users");
+        mAuth = FirebaseAuth.getInstance();
+        currentUserId = mAuth.getCurrentUser().getUid();
+        contactsRef = FirebaseDatabase.getInstance().getReference().child("Contacts");
         currentID= FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         findPepleBtn.setOnClickListener(v -> {
@@ -54,6 +64,8 @@ public class ContactsActivity extends AppCompatActivity {
 
     protected void onStart(){
         super.onStart();
+        checkForReceivingCall();
+        validateUser();
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if(firebaseUser==null){
 
@@ -65,6 +77,43 @@ public class ContactsActivity extends AppCompatActivity {
         getFriendList();
     }
 
+    private void checkForReceivingCall() {
+        userRef.child(currentID).child("Ringing").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.hasChild("Ringing")){
+                    calledBy = dataSnapshot.child("Ringing").getValue().toString();
+                    Intent callingIntent = new Intent(ContactsActivity.this, CallingActivity.class);
+                    callingIntent.putExtra("visit_user_id", calledBy);
+                    startActivity(callingIntent);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+    private void validateUser() {
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        reference.child("users").child(currentID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists()){
+                    Intent settingIntent = new Intent(ContactsActivity.this, SettingsActivity.class);
+                    startActivity(settingIntent);
+                    finish();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
     void getFriendList(){
         FirebaseRecyclerOptions<Contacts> options=null;
 
@@ -77,11 +126,11 @@ public class ContactsActivity extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull ContactsActivity.ContactViewHolder holder, final int position, @NonNull Contacts model) {
                 holder.userNameTxt.setText(model.getName());
+                final String listUserId = getRef(position).getKey();
                 Picasso.get().load(model.getImage()).into(holder.profileImageView);
-
+                String visit_user_id = getRef(position).getKey();
                 holder.itemView.setOnClickListener(v -> {
 
-                    String visit_user_id = getRef(position).getKey();
                     Intent intent = new Intent(ContactsActivity.this,FriendActivity.class);
                     intent.putExtra("visit_user_id",visit_user_id);
                     intent.putExtra("profile_image",model.getImage());
@@ -91,7 +140,15 @@ public class ContactsActivity extends AppCompatActivity {
 
                 });
                 holder.videCallBtn.setOnClickListener(v -> {
-                    Toast.makeText(ContactsActivity.this,"Calling...",Toast.LENGTH_LONG).show();
+
+
+                    Intent intent= new Intent(ContactsActivity.this,CallingActivity.class);
+                    intent.putExtra("visit_user_id", listUserId);
+                    intent.putExtra("profile_image",model.getImage());
+                    intent.putExtra("profile_name",model.getName());
+                    intent.putExtra("profile_status",model.getStatus());
+                    startActivity(intent);
+                    finish();
                 });
             }
 
