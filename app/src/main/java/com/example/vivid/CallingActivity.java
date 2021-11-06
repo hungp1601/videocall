@@ -42,7 +42,7 @@ public class CallingActivity extends AppCompatActivity {
         senderUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         mediaPlayer = MediaPlayer.create(this, R.raw.iphone);
-
+        mediaPlayer.start();
         nameContact = findViewById(R.id.name_calling);
         profileImage = findViewById(R.id.profile_image_calling);
         cancelCallBtn = findViewById(R.id.cancel_call);
@@ -59,7 +59,7 @@ public class CallingActivity extends AppCompatActivity {
         acceptCallBtn.setOnClickListener(v -> {
             mediaPlayer.stop();
             final HashMap<String, Object>callingPickUpMap = new HashMap<>();
-            callingPickUpMap.put("picked", "picked");
+            callingPickUpMap.put("Picked", "Picked");
             userRef.child(senderUserId).child("Ringing")
                     .updateChildren(callingPickUpMap)
                     .addOnCompleteListener(task -> {
@@ -97,7 +97,7 @@ public class CallingActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        mediaPlayer.start();
+
 
         userRef.child(receiverUserId).addValueEventListener(new ValueEventListener() {
             @Override
@@ -131,7 +131,7 @@ public class CallingActivity extends AppCompatActivity {
                     acceptCallBtn.setVisibility(View.VISIBLE);
                 }
 
-                if (dataSnapshot.child(receiverUserId).child("Ringing").hasChild("picked")){
+                if (dataSnapshot.child(receiverUserId).child("Ringing").hasChild("Picked")){
                     mediaPlayer.stop();
                     Intent intent = new Intent(CallingActivity.this, VideoChatActivity.class);
                     startActivity(intent);
@@ -146,7 +146,6 @@ public class CallingActivity extends AppCompatActivity {
     }
 
     private void cancelCallingUser() {
-
         // from sender side
         userRef.child(senderUserId).child("Calling").addValueEventListener(new ValueEventListener() {
             @Override
@@ -158,14 +157,15 @@ public class CallingActivity extends AppCompatActivity {
 
                         if (task.isSuccessful()){
                             userRef.child(senderUserId).child("Calling").removeValue().addOnCompleteListener(task12 -> {
-                                startActivity(new Intent(CallingActivity.this, RegistrationActivity.class));
+                                mediaPlayer.stop();
+                                startActivity(new Intent(CallingActivity.this, ContactsActivity.class));
                                 finish();
                             });
                         }
                     });
                 }
                 else {
-                    startActivity(new Intent(CallingActivity.this, RegistrationActivity.class));
+                    startActivity(new Intent(CallingActivity.this, ContactsActivity.class));
                     finish();
                 }
             }
@@ -189,15 +189,16 @@ public class CallingActivity extends AppCompatActivity {
                     userRef.child(ringingID).child("Calling").removeValue().addOnCompleteListener(task -> {
 
                         if (task.isSuccessful()){
+                            mediaPlayer.stop();
                             userRef.child(senderUserId).child("Ringing").removeValue().addOnCompleteListener(task1 -> {
-                                startActivity(new Intent(CallingActivity.this, RegistrationActivity.class));
+                                startActivity(new Intent(CallingActivity.this, ContactsActivity.class));
                                 finish();
                             });
                         }
                     });
                 }
                 else {
-                    startActivity(new Intent(CallingActivity.this, RegistrationActivity.class));
+                    startActivity(new Intent(CallingActivity.this, ContactsActivity.class));
                     finish();
                 }
             }

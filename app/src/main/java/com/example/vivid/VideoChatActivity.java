@@ -34,7 +34,6 @@ public class VideoChatActivity extends AppCompatActivity implements Session.Sess
     private static String TOKEN ="T1==cGFydG5lcl9pZD00NzM3MTA5MSZzaWc9ODYyOGNlMTg4MzdjODAzM2MxNzIwMzJiNTdiNGYyZTZkNmU4MzI2ZDpzZXNzaW9uX2lkPTJfTVg0ME56TTNNVEE1TVg1LU1UWXpOakF6TkRNNU56Y3dOSDVVUTJoR01scEJiMkZTY1haeVQxcDFVbU5VVjNWcFZqTi1mZyZjcmVhdGVfdGltZT0xNjM2MDM0NDMxJm5vbmNlPTAuNDQ4NjQ0MzEzNDkzMTg2MzQmcm9sZT1wdWJsaXNoZXImZXhwaXJlX3RpbWU9MTYzODYyNjQyOCZpbml0aWFsX2xheW91dF9jbGFzc19saXN0PQ==";
     private static final String LOG_TAG = VideoChatActivity.class.getSimpleName();
     private static final int RC_VIDEO_APP_PERM = 124;
-
     private FrameLayout mPublisherViewController;
     private FrameLayout mSubscriberViewController;
     private Session mSession;
@@ -46,13 +45,13 @@ public class VideoChatActivity extends AppCompatActivity implements Session.Sess
     private DatabaseReference userRef;
     private String userID="";
 
-    @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_chat);
 
         userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        userRef = FirebaseDatabase.getInstance().getReference().child("Users");
+        userRef = FirebaseDatabase.getInstance().getReference().child("users");
 
         closeVideoChatBtn = findViewById(R.id.close_video_chat_btn);
         closeVideoChatBtn.setOnClickListener(v -> userRef.addValueEventListener(new ValueEventListener() {
@@ -68,7 +67,7 @@ public class VideoChatActivity extends AppCompatActivity implements Session.Sess
                     if (msubscriber != null){
                         msubscriber.destroy();
                     }
-                    startActivity(new Intent(VideoChatActivity.this, RegistrationActivity.class));
+                    startActivity(new Intent(VideoChatActivity.this, ContactsActivity.class));
                     finish();
                 }
                 if (dataSnapshot.child(userID).hasChild("Calling")){
@@ -81,7 +80,7 @@ public class VideoChatActivity extends AppCompatActivity implements Session.Sess
                         msubscriber.destroy();
                     }
 
-                    startActivity(new Intent(VideoChatActivity.this, RegistrationActivity.class));
+                    startActivity(new Intent(VideoChatActivity.this, ContactsActivity.class));
                     finish();
                 }
                 else {
@@ -91,7 +90,7 @@ public class VideoChatActivity extends AppCompatActivity implements Session.Sess
                     if (msubscriber != null){
                         msubscriber.destroy();
                     }
-                    startActivity(new Intent(VideoChatActivity.this, RegistrationActivity.class));
+                    startActivity(new Intent(VideoChatActivity.this, ContactsActivity.class));
                     finish();
                 }
             }
@@ -121,7 +120,6 @@ public class VideoChatActivity extends AppCompatActivity implements Session.Sess
             mSubscriberViewController = findViewById(R.id.subscriber_container);
 
 
-            //initialize and connect the session
             mSession = new Session.Builder(this, API_KEY, SESSION_ID).build();
             mSession.setSessionListener(VideoChatActivity.this);
             mSession.connect(TOKEN);

@@ -22,7 +22,8 @@ import java.util.HashMap;
 
 public class FriendRequestActivity extends AppCompatActivity {
 
-    private String receiverUserID="",receiverUserImage="", receiverUserName="",receiverUserStatus="", currentID="",currentName="",currentStatus="",currentImage;
+    private String receiverUserID="",receiverUserImage="",
+            receiverUserName="",receiverUserStatus="", currentID="",currentName="",currentStatus="",currentImage;
     private ImageView background_profile_view;
     private TextView name_profile;
     private Button accept, decline;
@@ -35,9 +36,7 @@ public class FriendRequestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_friend_request);
 
         receiverUserID = getIntent().getExtras().get("visit_user_id").toString();
-        receiverUserImage = getIntent().getExtras().get("profile_image").toString();
-        receiverUserName = getIntent().getExtras().get("profile_name").toString();
-        receiverUserStatus = getIntent().getExtras().get("profile_status").toString();
+        currentID= FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         background_profile_view=findViewById(R.id.image_notification);
         name_profile= findViewById(R.id.name_notification);
@@ -45,10 +44,7 @@ public class FriendRequestActivity extends AppCompatActivity {
         accept=findViewById(R.id.request_accept_btn);
 
         userRef = FirebaseDatabase.getInstance().getReference().child("users");
-        currentID= FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        Picasso.get().load(receiverUserImage).into(background_profile_view);
-        name_profile.setText(receiverUserName);
 
         accept.setOnClickListener(view -> {
 
@@ -93,6 +89,7 @@ public class FriendRequestActivity extends AppCompatActivity {
                     currentName = snapshot.child("name").getValue().toString();
                     currentStatus = snapshot.child("status").getValue().toString();
                     currentImage = snapshot.child("image").getValue().toString();
+
                 }
                 else{
                     Toast.makeText(FriendRequestActivity.this,"error",Toast.LENGTH_SHORT).show();
@@ -104,7 +101,26 @@ public class FriendRequestActivity extends AppCompatActivity {
                 Toast.makeText(FriendRequestActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
             }
         });
+        userRef.child(receiverUserID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    receiverUserName = snapshot.child("name").getValue().toString();
+                    receiverUserStatus = snapshot.child("status").getValue().toString();
+                    receiverUserImage = snapshot.child("image").getValue().toString();
+                    Picasso.get().load(receiverUserImage).into(background_profile_view);
+                    name_profile.setText(receiverUserName);
+                }
+                else{
+                    Toast.makeText(FriendRequestActivity.this,"error",Toast.LENGTH_SHORT).show();
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(FriendRequestActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 

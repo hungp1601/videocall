@@ -26,6 +26,7 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageView background_profile_view;
     private  TextView name_profile,status_profile;
     private Button add_friend, decline_friend_request, call_friend;
+    private String currentImage="", currentStatus="", currentUserName="";
 
     private DatabaseReference userRef;
     @Override
@@ -33,9 +34,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         receiverUserID= getIntent().getExtras().get("visit_user_id").toString();
-        receiverUserImage= getIntent().getExtras().get("profile_image").toString();
-        receiverUserName= getIntent().getExtras().get("profile_name").toString();
-        receiverUserStatus= getIntent().getExtras().get("profile_status").toString();
+
         currentID=FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         background_profile_view=findViewById(R.id.background_profile_view);
@@ -47,17 +46,13 @@ public class ProfileActivity extends AppCompatActivity {
 
         userRef= FirebaseDatabase.getInstance().getReference().child("users");
 
-        Picasso.get().load(receiverUserImage).into(background_profile_view);
-        name_profile.setText(receiverUserName);
-        status_profile.setText(receiverUserStatus);
-
 
         add_friend.setOnClickListener(view -> {
             HashMap<String, Object> profileMap = new HashMap<>();
-            profileMap.put("uid", receiverUserID);
-            profileMap.put("name", receiverUserName);
-            profileMap.put("status", receiverUserStatus);
-            profileMap.put("image", receiverUserImage);
+            profileMap.put("uid", currentID);
+            profileMap.put("name", currentUserName);
+            profileMap.put("status", currentStatus);
+            profileMap.put("image", currentImage);
             userRef.child(receiverUserID).child("requests").child(currentID).setValue(profileMap);
             Toast.makeText(ProfileActivity.this,"Request was sent",Toast.LENGTH_SHORT).show();
         });
@@ -107,5 +102,44 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        userRef.child(receiverUserID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    receiverUserName = snapshot.child("name").getValue().toString();
+                    receiverUserStatus = snapshot.child("status").getValue().toString();
+                    receiverUserImage = snapshot.child("image").getValue().toString();
+                    Picasso.get().load(receiverUserImage).into(background_profile_view);
+                    name_profile.setText(receiverUserName);
+                    status_profile.setText(receiverUserStatus);
+                }
+                else{
+                    Toast.makeText(ProfileActivity.this,"error",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(ProfileActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        userRef.child(currentID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    currentUserName = snapshot.child("name").getValue().toString();
+                    currentStatus = snapshot.child("status").getValue().toString();
+                    currentImage = snapshot.child("image").getValue().toString();
+                }
+                else{
+                    Toast.makeText(ProfileActivity.this,"error",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(ProfileActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

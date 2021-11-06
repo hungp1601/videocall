@@ -3,7 +3,6 @@ package com.example.vivid;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -34,11 +33,10 @@ public class ContactsActivity extends AppCompatActivity {
     ImageView findPepleBtn;
 
     private DatabaseReference contactsRef, userRef;
-    private FirebaseAuth mAuth;
-    private String currentUserId;
+
     private String userName="", profileImage="";
     private String calledBy="";
-    String currentID;
+    String currentID="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,8 +49,7 @@ public class ContactsActivity extends AppCompatActivity {
         myContactList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
         userRef= FirebaseDatabase.getInstance().getReference().child("users");
-        mAuth = FirebaseAuth.getInstance();
-        currentUserId = mAuth.getCurrentUser().getUid();
+
         contactsRef = FirebaseDatabase.getInstance().getReference().child("Contacts");
         currentID= FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -78,6 +75,7 @@ public class ContactsActivity extends AppCompatActivity {
     }
 
     private void checkForReceivingCall() {
+
         userRef.child(currentID).child("Ringing").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -95,10 +93,10 @@ public class ContactsActivity extends AppCompatActivity {
             }
         });
     }
+
     private void validateUser() {
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-        reference.child("users").child(currentID).addValueEventListener(new ValueEventListener() {
+        userRef.child(currentID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (!dataSnapshot.exists()){
@@ -116,7 +114,6 @@ public class ContactsActivity extends AppCompatActivity {
     }
     void getFriendList(){
         FirebaseRecyclerOptions<Contacts> options=null;
-
         FirebaseRecyclerOptions.Builder<Contacts> contactsBuilder = new FirebaseRecyclerOptions.Builder<Contacts>();
         contactsBuilder.setQuery(userRef.child(currentID).child("friends").orderByChild("name"), Contacts.class);
         options = contactsBuilder.build();
@@ -125,28 +122,19 @@ public class ContactsActivity extends AppCompatActivity {
                 = new FirebaseRecyclerAdapter<Contacts, ContactsActivity.ContactViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull ContactsActivity.ContactViewHolder holder, final int position, @NonNull Contacts model) {
+
                 holder.userNameTxt.setText(model.getName());
-                final String listUserId = getRef(position).getKey();
                 Picasso.get().load(model.getImage()).into(holder.profileImageView);
                 String visit_user_id = getRef(position).getKey();
-                holder.itemView.setOnClickListener(v -> {
 
+                holder.itemView.setOnClickListener(v -> {
                     Intent intent = new Intent(ContactsActivity.this,FriendActivity.class);
                     intent.putExtra("visit_user_id",visit_user_id);
-                    intent.putExtra("profile_image",model.getImage());
-                    intent.putExtra("profile_name",model.getName());
-                    intent.putExtra("profile_status",model.getStatus());
                     startActivity(intent);
-
                 });
                 holder.videCallBtn.setOnClickListener(v -> {
-
-
                     Intent intent= new Intent(ContactsActivity.this,CallingActivity.class);
-                    intent.putExtra("visit_user_id", listUserId);
-                    intent.putExtra("profile_image",model.getImage());
-                    intent.putExtra("profile_name",model.getName());
-                    intent.putExtra("profile_status",model.getStatus());
+                    intent.putExtra("visit_user_id", visit_user_id);
                     startActivity(intent);
                     finish();
                 });
@@ -168,30 +156,23 @@ public class ContactsActivity extends AppCompatActivity {
 
     public BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener;
     {
-        navigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-
-                    case R.id.navigation_settings:
-                        Intent settingsIntent = new Intent(ContactsActivity.this, SettingsActivity.class);
-                        startActivity(settingsIntent);
-
-                        break;
-                    case R.id.navigation_notifications:
-                        Intent notificationIntent = new Intent(ContactsActivity.this, NotificationsActivity.class);
-                        startActivity(notificationIntent);
-
-                        break;
-                    case R.id.navigation_logout:
-                        FirebaseAuth.getInstance().signOut();
-                        Intent logoutIntent = new Intent(ContactsActivity.this, RegistrationActivity.class);
-                        startActivity(logoutIntent);
-
-                        break;
-                }
-                return true;
+        navigationItemSelectedListener = menuItem -> {
+            switch (menuItem.getItemId()) {
+                case R.id.navigation_settings:
+                    Intent settingsIntent = new Intent(ContactsActivity.this, SettingsActivity.class);
+                    startActivity(settingsIntent);
+                    break;
+                case R.id.navigation_notifications:
+                    Intent notificationIntent = new Intent(ContactsActivity.this, NotificationsActivity.class);
+                    startActivity(notificationIntent);
+                    break;
+                case R.id.navigation_logout:
+                    FirebaseAuth.getInstance().signOut();
+                    Intent logoutIntent = new Intent(ContactsActivity.this, RegistrationActivity.class);
+                    startActivity(logoutIntent);
+                    break;
             }
+            return true;
         };
     }
 

@@ -7,11 +7,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 public class FriendActivity extends AppCompatActivity {
@@ -28,10 +32,6 @@ public class FriendActivity extends AppCompatActivity {
         setContentView(R.layout.activity_friend);
 
         receiverUserID= getIntent().getExtras().get("visit_user_id").toString();
-        receiverUserImage= getIntent().getExtras().get("profile_image").toString();
-        receiverUserName= getIntent().getExtras().get("profile_name").toString();
-        receiverUserStatus= getIntent().getExtras().get("profile_status").toString();
-
         currentID= FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         background_profile_view=findViewById(R.id.image_contact);
@@ -40,12 +40,7 @@ public class FriendActivity extends AppCompatActivity {
         call=findViewById(R.id.call_btn);
         unfriend=findViewById(R.id.unfriend_btn);
 
-
         userRef= FirebaseDatabase.getInstance().getReference().child("users");
-
-        Picasso.get().load(receiverUserImage).into(background_profile_view);
-        name_profile.setText(receiverUserName);
-        status_profile.setText(receiverUserStatus);
 
         call.setOnClickListener(v->{
             Toast.makeText(FriendActivity.this,"Calling...",Toast.LENGTH_LONG).show();
@@ -58,6 +53,27 @@ public class FriendActivity extends AppCompatActivity {
 
             startActivity(intent);
             finish();
+        });
+        userRef.child(receiverUserID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    receiverUserName = snapshot.child("name").getValue().toString();
+                    receiverUserStatus = snapshot.child("status").getValue().toString();
+                    receiverUserImage = snapshot.child("image").getValue().toString();
+                    Picasso.get().load(receiverUserImage).into(background_profile_view);
+                    name_profile.setText(receiverUserName);
+                    status_profile.setText(receiverUserStatus);
+                }
+                else{
+                    Toast.makeText(FriendActivity.this,"error",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(FriendActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+            }
         });
     }
 }
