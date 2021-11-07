@@ -69,6 +69,7 @@ public class CallingActivity extends AppCompatActivity {
                             Intent intent = new Intent(CallingActivity.this, VideoChatActivity.class);
                             intent.putExtra("visit_user_id", receiverUserId);
                             startActivity(intent);
+                            finish();
                         }
                     });
         });
@@ -103,7 +104,7 @@ public class CallingActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
+        mediaPlayer.start();
         userRef.child(receiverUserId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -134,7 +135,6 @@ public class CallingActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.child(senderUserId).hasChild("Ringing") && !dataSnapshot.child(senderUserId).hasChild("Calling")){
-                    mediaPlayer.start();
                     acceptCallBtn.setVisibility(View.VISIBLE);
                 }
 
@@ -143,6 +143,7 @@ public class CallingActivity extends AppCompatActivity {
                     Intent intent = new Intent(CallingActivity.this, VideoChatActivity.class);
                     intent.putExtra("visit_user_id", receiverUserId);
                     startActivity(intent);
+                    finish();
                 }
             }
 
@@ -151,10 +152,6 @@ public class CallingActivity extends AppCompatActivity {
 
             }
         });
-
-
-
-
 
     }
 

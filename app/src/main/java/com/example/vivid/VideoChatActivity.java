@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -45,6 +46,7 @@ public class VideoChatActivity extends AppCompatActivity implements Session.Sess
     private DatabaseReference userRef;
     private String userID="",receiverID;
 
+    boolean check=true;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +59,7 @@ public class VideoChatActivity extends AppCompatActivity implements Session.Sess
         closeVideoChatBtn = findViewById(R.id.close_video_chat_btn);
         closeVideoChatBtn.setOnClickListener(v -> {
             mSession.disconnect();
+            check=false;
             userRef.addValueEventListener(new ValueEventListener() {
 
 
@@ -110,7 +113,8 @@ public class VideoChatActivity extends AppCompatActivity implements Session.Sess
 
     public void onStart(){
         super.onStart();
-        if(mSession==null){
+        if(mSession==null|| !check){
+            Toast.makeText(this,"ok",Toast.LENGTH_SHORT).show();
             startActivity(new Intent(VideoChatActivity.this, ContactsActivity.class));
             finish();
         }
@@ -120,7 +124,6 @@ public class VideoChatActivity extends AppCompatActivity implements Session.Sess
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, VideoChatActivity.this);
     }
     @AfterPermissionGranted(RC_VIDEO_APP_PERM)
