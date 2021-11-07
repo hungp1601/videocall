@@ -92,6 +92,7 @@ public class ContactsActivity extends AppCompatActivity {
 
             }
         });
+
     }
 
     private void validateUser() {

@@ -120,6 +120,7 @@ public class VideoChatActivity extends AppCompatActivity implements Session.Sess
             mSubscriberViewController = findViewById(R.id.subscriber_container);
 
 
+            //initialize and connect the session
             mSession = new Session.Builder(this, API_KEY, SESSION_ID).build();
             mSession.setSessionListener(VideoChatActivity.this);
             mSession.connect(TOKEN);
