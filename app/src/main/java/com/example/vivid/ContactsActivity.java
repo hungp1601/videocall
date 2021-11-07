@@ -84,6 +84,7 @@ public class ContactsActivity extends AppCompatActivity {
                     Intent callingIntent = new Intent(ContactsActivity.this, CallingActivity.class);
                     callingIntent.putExtra("visit_user_id", calledBy);
                     startActivity(callingIntent);
+                    finish();
                 }
             }
 
@@ -99,11 +100,11 @@ public class ContactsActivity extends AppCompatActivity {
 
         userRef.child(currentID).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (!dataSnapshot.exists()){
                     Intent settingIntent = new Intent(ContactsActivity.this, SettingsActivity.class);
                     startActivity(settingIntent);
-                    finish();
+
                 }
             }
 

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -53,11 +54,11 @@ public class CallingActivity extends AppCompatActivity {
         cancelCallBtn.setOnClickListener(v -> {
             mediaPlayer.stop();
             checker = "Clicked";
-
             cancelCallingUser();
         });
 
         acceptCallBtn.setOnClickListener(v -> {
+
             mediaPlayer.stop();
 
             final HashMap<String, Object>callingPickUpMap = new HashMap<>();
@@ -157,7 +158,6 @@ public class CallingActivity extends AppCompatActivity {
 
     private void cancelCallingUser() {
 
-        // from sender side
         userRef.child(senderUserId).child("Calling").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -165,13 +165,13 @@ public class CallingActivity extends AppCompatActivity {
                     callingID = dataSnapshot.child("Calling").getValue().toString();
 
                     userRef.child(callingID).child("Ringing").removeValue().addOnCompleteListener(task -> {
-
                         if (task.isSuccessful()){
-                            userRef.child(senderUserId).child("Calling").removeValue().addOnCompleteListener(task1 -> {
+                            userRef.child(senderUserId).child("Calling").removeValue().addOnCompleteListener(task12 -> {
                                 startActivity(new Intent(CallingActivity.this, ContactsActivity.class));
                                 finish();
                             });
                         }
+                        else Toast.makeText(CallingActivity.this,"call", Toast.LENGTH_SHORT).show();
                     });
                 }
                 else {
@@ -187,7 +187,6 @@ public class CallingActivity extends AppCompatActivity {
         });
 
 
-
         // from receiver side
         userRef.child(senderUserId).child("Ringing").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -199,7 +198,7 @@ public class CallingActivity extends AppCompatActivity {
                     userRef.child(ringingID).child("Calling").removeValue().addOnCompleteListener(task -> {
 
                         if (task.isSuccessful()){
-                            userRef.child(senderUserId).child("Ringing").removeValue().addOnCompleteListener(task12 -> {
+                            userRef.child(senderUserId).child("Ringing").removeValue().addOnCompleteListener(task1 -> {
                                 startActivity(new Intent(CallingActivity.this, ContactsActivity.class));
                                 finish();
                             });
