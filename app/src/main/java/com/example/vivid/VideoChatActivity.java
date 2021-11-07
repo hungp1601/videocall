@@ -43,7 +43,7 @@ public class VideoChatActivity extends AppCompatActivity implements Session.Sess
 
     private ImageView closeVideoChatBtn;
     private DatabaseReference userRef;
-    private String userID="";
+    private String userID="",receiverID;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,58 +51,71 @@ public class VideoChatActivity extends AppCompatActivity implements Session.Sess
         setContentView(R.layout.activity_video_chat);
 
         userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        receiverID =  getIntent().getExtras().get("visit_user_id").toString();
         userRef = FirebaseDatabase.getInstance().getReference().child("users");
 
         closeVideoChatBtn = findViewById(R.id.close_video_chat_btn);
-        closeVideoChatBtn.setOnClickListener(v -> userRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+        closeVideoChatBtn.setOnClickListener(v -> {
+            mSession.disconnect();
+            userRef.addValueEventListener(new ValueEventListener() {
 
-                if (dataSnapshot.child(userID).hasChild("Ringing")){
-                    userRef.child(userID).child("Ringing").removeValue();
 
-                    if (mPublisher != null){
-                        mPublisher.destroy();
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    if (dataSnapshot.child(userID).hasChild("Ringing")) {
+                        userRef.child(userID).child("Ringing").removeValue();
+
+                        if (mPublisher != null) {
+                            mPublisher.destroy();
+                        }
+                        if (msubscriber != null) {
+                            msubscriber.destroy();
+                        }
+                        startActivity(new Intent(VideoChatActivity.this, ContactsActivity.class));
+                        finish();
                     }
-                    if (msubscriber != null){
-                        msubscriber.destroy();
+                    if (dataSnapshot.child(userID).hasChild("Calling")) {
+                        userRef.child(userID).child("Calling").removeValue();
+
+                        if (mPublisher != null) {
+                            mPublisher.destroy();
+                        }
+                        if (msubscriber != null) {
+                            msubscriber.destroy();
+                        }
+
+                        startActivity(new Intent(VideoChatActivity.this, ContactsActivity.class));
+                        finish();
+                    } else {
+                        if (mPublisher != null) {
+                            mPublisher.destroy();
+                        }
+                        if (msubscriber != null) {
+                            msubscriber.destroy();
+                        }
+                        startActivity(new Intent(VideoChatActivity.this, ContactsActivity.class));
+                        finish();
                     }
-                    startActivity(new Intent(VideoChatActivity.this, ContactsActivity.class));
-                    finish();
                 }
-                if (dataSnapshot.child(userID).hasChild("Calling")){
-                    userRef.child(userID).child("Calling").removeValue();
 
-                    if (mPublisher != null){
-                        mPublisher.destroy();
-                    }
-                    if (msubscriber != null){
-                        msubscriber.destroy();
-                    }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-                    startActivity(new Intent(VideoChatActivity.this, ContactsActivity.class));
-                    finish();
                 }
-                else {
-                    if (mPublisher != null){
-                        mPublisher.destroy();
-                    }
-                    if (msubscriber != null){
-                        msubscriber.destroy();
-                    }
-                    startActivity(new Intent(VideoChatActivity.this, ContactsActivity.class));
-                    finish();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        }));
+            });
+        });
 
         requestPermissions();
     }
+
+    public void onStart(){
+        super.onStart();
+        if(mSession==null){
+            startActivity(new Intent(VideoChatActivity.this, ContactsActivity.class));
+            finish();
+        }
+    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

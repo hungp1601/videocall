@@ -49,6 +49,7 @@ public class CallingActivity extends AppCompatActivity {
         acceptCallBtn = findViewById(R.id.make_call);
 
 
+
         cancelCallBtn.setOnClickListener(v -> {
             mediaPlayer.stop();
             checker = "Clicked";
@@ -66,6 +67,7 @@ public class CallingActivity extends AppCompatActivity {
                     .addOnCompleteListener(task -> {
                         if (task.isComplete()){
                             Intent intent = new Intent(CallingActivity.this, VideoChatActivity.class);
+                            intent.putExtra("visit_user_id", receiverUserId);
                             startActivity(intent);
                         }
                     });
@@ -102,11 +104,6 @@ public class CallingActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        if(acceptCallBtn.getVisibility()==View.VISIBLE){
-            mediaPlayer.start();
-        }
-
-
         userRef.child(receiverUserId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -137,12 +134,14 @@ public class CallingActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.child(senderUserId).hasChild("Ringing") && !dataSnapshot.child(senderUserId).hasChild("Calling")){
+                    mediaPlayer.start();
                     acceptCallBtn.setVisibility(View.VISIBLE);
                 }
 
                 if (dataSnapshot.child(receiverUserId).child("Ringing").hasChild("Picked")){
                     mediaPlayer.stop();
                     Intent intent = new Intent(CallingActivity.this, VideoChatActivity.class);
+                    intent.putExtra("visit_user_id", receiverUserId);
                     startActivity(intent);
                 }
             }
@@ -152,6 +151,11 @@ public class CallingActivity extends AppCompatActivity {
 
             }
         });
+
+
+
+
+
     }
 
     private void cancelCallingUser() {
