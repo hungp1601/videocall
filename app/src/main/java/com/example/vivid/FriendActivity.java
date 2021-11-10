@@ -43,7 +43,10 @@ public class FriendActivity extends AppCompatActivity {
         userRef= FirebaseDatabase.getInstance().getReference().child("users");
 
         call.setOnClickListener(v->{
-            Toast.makeText(FriendActivity.this,"Calling...",Toast.LENGTH_LONG).show();
+            Intent intent= new Intent(FriendActivity.this,CallingActivity.class);
+            intent.putExtra("visit_user_id", receiverUserID);
+            startActivity(intent);
+            finish();
         });
         unfriend.setOnClickListener(v->{
             userRef.child(currentID).child("friends").child(receiverUserID).removeValue();
