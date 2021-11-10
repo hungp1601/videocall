@@ -101,13 +101,13 @@ public class ReceivingActivity extends AppCompatActivity {
                             if(task.isSuccessful()){
                                 userRef.removeEventListener(this);
                             }
-                            mediaPlayer.stop();
-                            Intent intent = new Intent(ReceivingActivity.this, ContactsActivity.class);
-                            finish();
-                            startActivity(intent);
+
                         });
                     }
-
+                    mediaPlayer.stop();
+                    Intent intent = new Intent(ReceivingActivity.this, ContactsActivity.class);
+                    finish();
+                    startActivity(intent);
 
                 }
             }
