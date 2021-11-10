@@ -65,7 +65,6 @@ public class ContactsActivity extends AppCompatActivity {
         validateUser();
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if(firebaseUser==null){
-
             Intent logoutIntent = new Intent(ContactsActivity.this, RegistrationActivity.class);
             startActivity(logoutIntent);
             finish();
@@ -81,7 +80,7 @@ public class ContactsActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.hasChild("Ringing")){
                     calledBy = dataSnapshot.child("Ringing").getValue().toString();
-                    Intent callingIntent = new Intent(ContactsActivity.this, CallingActivity.class);
+                    Intent callingIntent = new Intent(ContactsActivity.this, ReceivingActivity.class);
                     callingIntent.putExtra("visit_user_id", calledBy);
                     startActivity(callingIntent);
                     finish();
