@@ -125,17 +125,17 @@ public class CallingActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (!dataSnapshot.child(receiverUserId).hasChild("Ringing")) {
-                        if (dataSnapshot.child(senderUserId).hasChild("Calling")){
+
                             userRef.child(senderUserId).child("Calling").removeValue().addOnCompleteListener(task -> {
-                                if(task.isSuccessful()){
+
                                     userRef.removeEventListener(this);
                                     Intent intent = new Intent(CallingActivity.this, ContactsActivity.class);
                                     finish();
                                     startActivity(intent);
 
-                                }
+
                             });
-                        }
+
 
                     }
 

@@ -46,13 +46,23 @@ public class ReceivingActivity extends AppCompatActivity {
         mediaPlayer.start();
 
         cancelCallBtn.setOnClickListener(v -> {
-            mediaPlayer.stop();
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
+                mediaPlayer.reset();
+                mediaPlayer.release();
+                mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.iphone);
+            }
             cancelCallingUser();
         });
 
         acceptCallBtn.setOnClickListener(v -> {
 
-            mediaPlayer.stop();
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
+                mediaPlayer.reset();
+                mediaPlayer.release();
+                mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.iphone);
+            }
 
             final HashMap<String, Object> callingPickUpMap = new HashMap<>();
             callingPickUpMap.put("Picked", "Picked");
@@ -96,18 +106,24 @@ public class ReceivingActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 if (!dataSnapshot.child(receiverUserId).hasChild("Calling")) {
-                    if(dataSnapshot.child(senderUserId).hasChild("Ringing")){
+                    if (mediaPlayer.isPlaying()) {
+                        mediaPlayer.stop();
+                        mediaPlayer.reset();
+                        mediaPlayer.release();
+                        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.iphone);
+                    }
                         userRef.child(senderUserId).child("Ringing").removeValue().addOnCompleteListener(task -> {
-                            if(task.isSuccessful()){
+
                                 userRef.removeEventListener(this);
-                            }
+
+                                Intent intent = new Intent(ReceivingActivity.this, ContactsActivity.class);
+                                finish();
+                                startActivity(intent);
+
 
                         });
-                    }
-                    mediaPlayer.stop();
-                    Intent intent = new Intent(ReceivingActivity.this, ContactsActivity.class);
-                    finish();
-                    startActivity(intent);
+
+
 
                 }
             }
