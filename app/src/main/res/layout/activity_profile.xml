@@ -11,11 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/profile_image"
-
-        >
+        android:src="@drawable/profile_image">
 
     </ImageView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#9A242627" />
 
     <TextView
         android:id="@+id/name_profile"
@@ -26,7 +29,7 @@
         android:maxLines="2"
         android:scaleType="centerCrop"
         android:text="user name"
-        android:textColor="@color/mauChuDao"
+        android:textColor="@color/white"
         android:textSize="28dp"
         android:textStyle="bold" />
 
@@ -40,7 +43,7 @@
         android:maxLines="2"
         android:scaleType="centerCrop"
         android:text="user status"
-        android:textColor="#0A76CC"
+        android:textColor="#D5D2D2"
         android:textSize="20dp"
         android:textStyle="bold" />
 
@@ -68,11 +71,11 @@
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         android:layout_below="@+id/status_profile"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="15dp"
         android:layout_marginLeft="35dp"
         android:layout_marginBottom="35dp"
         android:layout_marginRight="12dp"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/btn_border"
         android:text="Cancel Friend Request"
         android:padding="5dp"
         android:visibility="gone">

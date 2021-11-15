@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/back"
+    android:background="@color/white"
     tools:context=".SettingsActivity">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -24,27 +24,27 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="15dp"
-        android:backgroundTint="@android:color/white"
+        android:backgroundTint="#333333"
         android:drawableLeft="@drawable/edit_profile"
-        android:drawableTint="@android:color/white"
+        android:drawableTint="#333333"
         android:hint="write your name"
-        android:textColor="@android:color/white"
-        android:textColorHint="@android:color/white" />
+        android:textColor="@color/black"
+        android:textColorHint="#333333" />
 
     <EditText
         android:id="@+id/bio_settings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/edit_status"
-        android:drawableTint="@android:color/white"
         android:layout_below="@id/username_settings"
         android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="15dp"
+        android:backgroundTint="#333333"
+        android:drawableLeft="@drawable/edit_status"
+        android:drawableTint="#333333"
         android:hint="write your status"
-        android:textColorHint="@android:color/white"
-        android:textColor="@android:color/white"
-        android:backgroundTint="@android:color/white" />
+        android:textColor="@color/black"
+        android:textColorHint="#333333" />
 
     <Button
         android:id="@+id/save_settings_btn"
@@ -55,5 +55,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="18dp"
         android:text="Save"
-        android:textColor="@android:color/white" />
+        android:textSize="20dp"
+        android:textColor="@color/white"
+        android:background="@drawable/btn_border"/>
 </RelativeLayout>

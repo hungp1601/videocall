@@ -28,8 +28,11 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="16dp"
                     android:background="@drawable/timkiem"
+                    android:drawableLeft="@drawable/search"
+                    android:drawableTint="#85878b"
                     android:hint="Search here..."
                     android:textAlignment="center"
+                    android:paddingLeft="10dp"
                     android:textColor="#85878b"></EditText>
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
