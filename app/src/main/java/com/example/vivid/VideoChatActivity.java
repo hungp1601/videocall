@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,7 +43,7 @@ public class VideoChatActivity extends AppCompatActivity implements Session.Sess
 
     private ImageView closeVideoChatBtn;
     private DatabaseReference userRef;
-    private String userID="",receiverID;
+    private String userID="",receiverID="";
 
     boolean check=true;
 
@@ -65,40 +64,44 @@ public class VideoChatActivity extends AppCompatActivity implements Session.Sess
 
                 public void onDataChange(DataSnapshot dataSnapshot) {
 
-                    if (dataSnapshot.child(userID).hasChild("Ringing")) {
-                        userRef.child(userID).child("Ringing").removeValue();
-
-                        if (mPublisher != null) {
-                            mPublisher.destroy();
+                    if (dataSnapshot.child(userID).hasChild("Ringing")||dataSnapshot.child(userID).hasChild("Calling")) {
+                        if (dataSnapshot.child(userID).hasChild("Calling")) {
+                            userRef.child(userID).child("Calling").removeValue();
+                            userRef.child(receiverID).child("Ringing").removeValue().addOnCompleteListener(task -> userRef.removeEventListener(this));
+                            if (mPublisher != null) {
+                                mPublisher.destroy();
+                            }
+                            if (msubscriber != null) {
+                                msubscriber.destroy();
+                            }
                         }
-                        if (msubscriber != null) {
-                            msubscriber.destroy();
+                        else if (dataSnapshot.child(userID).hasChild("Ringing")) {
+                            userRef.child(userID).child("Ringing").removeValue();
+                            userRef.child(receiverID).child("Calling").removeValue().addOnCompleteListener(task -> userRef.removeEventListener(this));
+                            if (mPublisher != null) {
+                                mPublisher.destroy();
+                            }
+                            if (msubscriber != null) {
+                                msubscriber.destroy();
+                            }
                         }
-                        startActivity(new Intent(VideoChatActivity.this, ContactsActivity.class));
+                        Intent intent=new Intent(VideoChatActivity.this,ContactsActivity.class);
                         finish();
+                        startActivity(intent);
                     }
-                    if (dataSnapshot.child(userID).hasChild("Calling")) {
-                        userRef.child(userID).child("Calling").removeValue();
-
+                    else{
+                        userRef.removeEventListener(this);
                         if (mPublisher != null) {
                             mPublisher.destroy();
                         }
                         if (msubscriber != null) {
                             msubscriber.destroy();
                         }
-
-                        startActivity(new Intent(VideoChatActivity.this, ContactsActivity.class));
+                        Intent intent=new Intent(VideoChatActivity.this,ContactsActivity.class);
                         finish();
-                    } else {
-                        if (mPublisher != null) {
-                            mPublisher.destroy();
-                        }
-                        if (msubscriber != null) {
-                            msubscriber.destroy();
-                        }
-                        startActivity(new Intent(VideoChatActivity.this, ContactsActivity.class));
-                        finish();
+                        startActivity(intent);
                     }
+
                 }
 
                 @Override
@@ -107,19 +110,59 @@ public class VideoChatActivity extends AppCompatActivity implements Session.Sess
                 }
             });
         });
-
         requestPermissions();
     }
 
-    public void onStart(){
+    @Override
+    protected void onStart() {
         super.onStart();
-        if(mSession==null|| !check){
-            Toast.makeText(this,"ok",Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(VideoChatActivity.this, ContactsActivity.class));
-            finish();
-        }
-    }
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.child(receiverID).hasChild("Ringing")&& !dataSnapshot.child(receiverID).hasChild("Calling")) {
+                    if (mPublisher != null) {
+                        mPublisher.destroy();
+                    }
+                    if (msubscriber != null) {
+                        msubscriber.destroy();
+                    }
+                    if(dataSnapshot.child(userID).hasChild("Calling")){
+                        userRef.child(userID).child("Calling").removeValue().addOnCompleteListener(task -> {
+                            userRef.removeEventListener(this);
+                            Intent intent = new Intent(VideoChatActivity.this, ContactsActivity.class);
+                            finish();
+                            startActivity(intent);
 
+                        });
+                    }
+                    else if(dataSnapshot.child(userID).hasChild("Ringing")){
+                        userRef.child(userID).child("Ringing").removeValue().addOnCompleteListener(task -> {
+                            userRef.removeEventListener(this);
+                            Intent intent = new Intent(VideoChatActivity.this, ContactsActivity.class);
+                            finish();
+                            startActivity(intent);
+
+                        });
+                    }
+                    else{
+                        userRef.removeEventListener(this);
+                        Intent intent = new Intent(VideoChatActivity.this, ContactsActivity.class);
+                        finish();
+                        startActivity(intent);
+                    }
+
+
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

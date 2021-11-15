@@ -1,5 +1,6 @@
 package com.example.vivid;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -63,7 +64,10 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
         call_friend.setOnClickListener(view -> {
-
+            Intent intent= new Intent(ProfileActivity.this,CallingActivity.class);
+            intent.putExtra("visit_user_id", receiverUserID);
+            startActivity(intent);
+            finish();
         });
 
         userRef.addValueEventListener(new ValueEventListener() {
