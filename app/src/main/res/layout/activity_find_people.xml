@@ -14,7 +14,8 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_contacts"
             android:layout_width="match_parent"
-            android:layout_height="60dp">
+            android:background="@color/white"
+            android:layout_height="57dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -23,15 +24,13 @@
                 <EditText
                     android:id="@+id/search_user_text"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:layout_centerVertical="true"
-                    android:drawableLeft="@drawable/search"
-                    android:textColor="@android:color/white"
+                    android:layout_marginRight="16dp"
+                    android:background="@drawable/timkiem"
                     android:hint="Search here..."
                     android:textAlignment="center"
-                    android:layout_marginRight="16dp">
-                </EditText>
-
+                    android:textColor="#85878b"></EditText>
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>

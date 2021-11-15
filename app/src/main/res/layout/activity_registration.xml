@@ -4,14 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/register"
+    android:background="@color/white"
     tools:context=".RegistrationActivity">
 
+    <pl.droidsonroids.gif.GifImageView
+        android:layout_marginTop="30dp"
+        android:layout_width="400dp"
+        android:layout_height="300dp"
+        android:src="@drawable/iconrrr"
+        />
 
     <TextView
         android:id="@+id/textview1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="260dp">
     </TextView>
@@ -22,8 +28,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textview1"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
         android:padding="8dp">
 
         <LinearLayout
@@ -35,9 +41,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Phone Number:"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"
-                android:textSize="18sp" />
+                android:textColor="#2667c3"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -48,19 +54,20 @@
                     android:id="@+id/ccp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/white"
+                    android:background="#CACACA"
+                    app:ccp_flagBorderColor="@color/purple_700"
                     app:ccp_defaultNameCode="VN" />
 
                 <EditText
                     android:id="@+id/phoneText"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
+                    android:backgroundTint="@android:color/darker_gray"
                     android:hint="84123456789"
-                    android:textColor="@android:color/white"
-                    android:textColorHint="@android:color/darker_gray"
                     android:inputType="phone"
                     android:singleLine="true"
-                    android:backgroundTint="@android:color/white"/>
+                    android:textColor="@android:color/black"
+                    android:textColorHint="@android:color/darker_gray" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
@@ -73,14 +80,14 @@
         android:layout_height="60dp"
         android:layout_margin="25dp"
         android:hint="Write you code here..."
-        android:textColor="@android:color/white"
-        android:textColorHint="@android:color/white"
+        android:textColor="@android:color/darker_gray"
+        android:textColorHint="@android:color/darker_gray"
         android:inputType="phone"
         android:singleLine="true"
         android:layout_below="@+id/phoneAuth"
         android:drawableLeft="@drawable/password"
-        android:drawableTint="@android:color/white"
-        android:backgroundTint="@android:color/white"
+        android:drawableTint="@android:color/darker_gray"
+        android:backgroundTint="@android:color/darker_gray"
         android:visibility="gone"/>
 
     <Button
@@ -89,11 +96,11 @@
         android:layout_height="40dp"
         android:layout_below="@+id/codeText"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/btn_border"
         android:text="Continue"
         android:textAllCaps="false"
-        android:layout_marginTop="6dp"
-        android:textSize="15dp"
-        android:background="@color/colorPrimary"
-        android:textColor="@android:color/white"/>
+        android:textColor="@android:color/white"
+        android:textSize="15dp" />
 
 </RelativeLayout>

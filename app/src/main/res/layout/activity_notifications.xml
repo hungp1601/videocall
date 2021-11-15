@@ -14,7 +14,8 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_contacts"
             android:layout_width="match_parent"
-            android:layout_height="60dp">
+            android:background="@color/white"
+            android:layout_height="57dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -26,8 +27,8 @@
                     android:layout_centerVertical="true"
                     android:text="Notifications"
                     android:textStyle="bold"
-                    android:textColor="@android:color/white"
-                    android:textSize="20dp"></TextView>
+                    android:textColor="@color/mauChuDao"
+                    android:textSize="23dp"></TextView>
 
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>

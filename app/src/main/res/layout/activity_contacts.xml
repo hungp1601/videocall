@@ -14,7 +14,8 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_contacts"
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:background="@color/white"
+            android:layout_height="57dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -25,19 +26,18 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:text="Contacts"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/white"
-                    android:textSize="20dp"></TextView>
+                    android:textColor="@color/mauChuDao"
+                    android:textSize="23dp"
+                    android:textStyle="bold"></TextView>
 
                 <ImageView
                     android:id="@+id/find_people_btn"
                     android:layout_width="38dp"
                     android:layout_height="40dp"
-                    android:layout_marginEnd="12dp"
                     android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="12dp"
                     android:src="@drawable/find_people"
-                    app:tint="@android:color/white">
-                </ImageView>
+                    app:tint="@color/mauChuDao"></ImageView>
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
