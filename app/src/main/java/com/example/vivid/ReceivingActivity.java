@@ -26,6 +26,7 @@ public class ReceivingActivity extends AppCompatActivity {
     private String receiverUserId="", receiverUserImage="", receiverUserName="";
     private String senderUserId="";
     private DatabaseReference userRef;
+    private de.hdodenhof.circleimageview.CircleImageView circleImg;
 
     private MediaPlayer mediaPlayer;
     @Override
@@ -42,6 +43,7 @@ public class ReceivingActivity extends AppCompatActivity {
         profileImage = findViewById(R.id.profile_image_calling);
         cancelCallBtn = findViewById(R.id.cancel_call);
         acceptCallBtn = findViewById(R.id.make_call);
+        circleImg = findViewById(R.id.hinhanh);
 
         mediaPlayer.start();
 
@@ -90,6 +92,7 @@ public class ReceivingActivity extends AppCompatActivity {
                     receiverUserName = dataSnapshot.child(receiverUserId).child("name").getValue().toString();
                     nameContact.setText(receiverUserName);
                     Picasso.get().load(receiverUserImage).into(profileImage);
+                    Picasso.get().load(receiverUserImage).into(circleImg);
                 }
             }
 

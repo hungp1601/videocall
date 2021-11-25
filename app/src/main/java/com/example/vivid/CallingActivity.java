@@ -28,7 +28,7 @@ public class CallingActivity extends AppCompatActivity {
     private String receiverUserId="", receiverUserImage="", receiverUserName="";
     private String senderUserId="";
     private DatabaseReference userRef;
-
+    private de.hdodenhof.circleimageview.CircleImageView circleImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class CallingActivity extends AppCompatActivity {
         receiverUserId = getIntent().getExtras().get("visit_user_id").toString();
         userRef = FirebaseDatabase.getInstance().getReference().child("users");
         senderUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
+        circleImg = findViewById(R.id.hinhanh);
 
         nameContact = findViewById(R.id.name_calling);
         profileImage = findViewById(R.id.profile_image_calling);
@@ -103,6 +103,7 @@ public class CallingActivity extends AppCompatActivity {
 
                     nameContact.setText(receiverUserName);
                     Picasso.get().load(receiverUserImage).into(profileImage);
+                    Picasso.get().load(receiverUserImage).into(circleImg);
                 }
 
             }

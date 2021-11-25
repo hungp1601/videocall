@@ -45,7 +45,6 @@ public class VideoChatActivity extends AppCompatActivity implements Session.Sess
     private DatabaseReference userRef;
     private String userID="",receiverID="";
 
-    boolean check=true;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +57,7 @@ public class VideoChatActivity extends AppCompatActivity implements Session.Sess
         closeVideoChatBtn = findViewById(R.id.close_video_chat_btn);
         closeVideoChatBtn.setOnClickListener(v -> {
             mSession.disconnect();
-            check=false;
+
             userRef.addValueEventListener(new ValueEventListener() {
 
 
@@ -150,7 +149,6 @@ public class VideoChatActivity extends AppCompatActivity implements Session.Sess
                         finish();
                         startActivity(intent);
                     }
-
 
 
                 }
