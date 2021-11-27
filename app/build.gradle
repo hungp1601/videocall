@@ -49,14 +49,13 @@ dependencies {
     // region picker
     implementation 'com.hbb20:ccp:2.1.9'
 
-
+    //app camera and mic permission
     implementation 'pub.devrel:easypermissions:2.0.1'
 
     implementation 'com.google.android.gms:play-services-safetynet:17.0.1'
     // img downloader
     implementation 'com.squareup.picasso:picasso:2.71828'
 
-    implementation 'pub.devrel:easypermissions:2.0.1'
     //web RTC to video call
     implementation 'com.opentok.android:opentok-android-sdk:2.21.1'
 

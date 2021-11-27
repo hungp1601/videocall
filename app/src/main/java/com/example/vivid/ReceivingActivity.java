@@ -48,23 +48,13 @@ public class ReceivingActivity extends AppCompatActivity {
         mediaPlayer.start();
 
         cancelCallBtn.setOnClickListener(v -> {
-            if (mediaPlayer.isPlaying()) {
-                mediaPlayer.stop();
-                mediaPlayer.reset();
-                mediaPlayer.release();
-                mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.iphone);
-            }
+            mediaPlayer.stop();
             cancelCallingUser();
         });
 
         acceptCallBtn.setOnClickListener(v -> {
 
-            if (mediaPlayer.isPlaying()) {
-                mediaPlayer.stop();
-                mediaPlayer.reset();
-                mediaPlayer.release();
-                mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.iphone);
-            }
+            mediaPlayer.stop();
 
             final HashMap<String, Object> callingPickUpMap = new HashMap<>();
             callingPickUpMap.put("Picked", "Picked");
@@ -83,6 +73,14 @@ public class ReceivingActivity extends AppCompatActivity {
         getAndSetReceiverProfileInfo();
 
     }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mediaPlayer.stop();
+    }
+
     private void getAndSetReceiverProfileInfo() {
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -93,6 +91,7 @@ public class ReceivingActivity extends AppCompatActivity {
                     nameContact.setText(receiverUserName);
                     Picasso.get().load(receiverUserImage).into(profileImage);
                     Picasso.get().load(receiverUserImage).into(circleImg);
+
                 }
             }
 
@@ -109,12 +108,9 @@ public class ReceivingActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 if (!dataSnapshot.child(receiverUserId).hasChild("Calling")) {
-                    if (mediaPlayer.isPlaying()) {
+
                         mediaPlayer.stop();
-                        mediaPlayer.reset();
-                        mediaPlayer.release();
-                        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.iphone);
-                    }
+
                         userRef.child(senderUserId).child("Ringing").removeValue().addOnCompleteListener(task -> {
 
                                 userRef.removeEventListener(this);

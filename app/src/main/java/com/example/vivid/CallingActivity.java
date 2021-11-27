@@ -44,9 +44,7 @@ public class CallingActivity extends AppCompatActivity {
         profileImage = findViewById(R.id.profile_image_calling);
         cancelCallBtn = findViewById(R.id.cancel_call);
 
-
         cancelCallBtn.setOnClickListener(v -> cancelCallingUser());
-
 
         getAndSetReceiverProfileInfo();
         checkCallConnection();
@@ -128,12 +126,10 @@ public class CallingActivity extends AppCompatActivity {
                     if (!dataSnapshot.child(receiverUserId).hasChild("Ringing")) {
 
                             userRef.child(senderUserId).child("Calling").removeValue().addOnCompleteListener(task -> {
-
                                     userRef.removeEventListener(this);
                                     Intent intent = new Intent(CallingActivity.this, ContactsActivity.class);
                                     finish();
                                     startActivity(intent);
-
 
                             });
 
